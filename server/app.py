@@ -3,7 +3,7 @@
 from flask import Flask, make_response
 from flask_migrate import Migrate
 
-from models import db, Pet, Owner
+from models import db, Owner, Pet
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -29,14 +29,15 @@ def pet_by_id(id):
         response_body = '<h1>404 pet not found</h1>'
         response = make_response(response_body, 404)
         return response
-    
+
     response_body = f'''
         <h1>Information for {pet.name}</h1>
         <h2>Pet Species is {pet.species}</h2>
         <h2>Pet Owner is {pet.owner.name}</h2>
     '''
 
-    response=make_response(response_body, 200)
+    response = make_response(response_body, 200)
+
     return response
 
 @app.route('/owner/<int:id>')
@@ -64,4 +65,4 @@ def owner_by_id(id):
     return response
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run(port=5555)
